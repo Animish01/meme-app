@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "cloudinary": "^2.2.0",
+    "fs": "^0.0.1-security",
     "html-to-image": "^1.11.11",
+    "list-react-files": "^0.2.0",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18"

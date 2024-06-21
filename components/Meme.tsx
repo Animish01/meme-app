@@ -1,35 +1,43 @@
 'use client'
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toPng } from "html-to-image";
 
 export default function Meme () {
   const [upperText, setUpperText] = useState('Upper text');
   const [lowerText, setLowerText] = useState('Lower text');
+  const [memes, setMemes] = useState([]);
 
-  const changeUpperText = (e
-  ) => {
-  setUpperText(e.target.value);
+  const changeUpperText = (e:any) => {
+    setUpperText(e.target.value);
   }
-  const changeLowerText = (e
-  ) => {
-  setLowerText(e.target.value);
+  const changeLowerText = (e:any) => {
+    setLowerText(e.target.value);
   }
 
   const elementRef = useRef(null);
 
   const downloadImage = () => {
-  toPng(elementRef.current, { cacheBust: false })
-  .then((dataUrl) => {
-  const link = document.createElement('a');
-  link.download = 'meme.png';
-  link.href = dataUrl;
-  link.click();
-  })
+    toPng(elementRef.current, { cacheBust: false })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = 'meme.png';
+        link.href = dataUrl;
+        link.click();
+    })
   }
 
+  // useEffect(() => {
+  //   const imageRes = async () => {
+  //     const memes = await fetch('/api');
+  //     const memeNames = await memes.json();
+  //     setMemes(memeNames);
+  //   }
+  //   imageRes();
+  // }, []);
+
   return (
-    <div className="flex flex-row w-screen justify-around">
+    <div className="flex flex-row w-screen justify-between">
       <div className="texts flex-1 flex flex-col justify-center">
         <label className=" max-w-60">Change upper Text</label>
         <input id="upperText" placeholder="Upper Text"  className="max-w-60" onChange={changeUpperText}/>
@@ -45,6 +53,20 @@ export default function Meme () {
           onClick={downloadImage} 
         >Download
         </div>
+      </div>
+      <div className="grid grid-cols-3">
+        {
+          memes.map((url) => {
+            const imagePath = __dirname+'images/'+url;
+            console.log(imagePath);
+            
+            return (
+              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center"
+                style={{background: `url(${imagePath})`}}
+              ></div>
+            )
+          })
+        }
       </div>
     </div>
   )
