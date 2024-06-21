@@ -16,15 +16,20 @@ export default function Meme () {
   }
 
   const elementRef = useRef(null);
-
+  
   const downloadImage = () => {
-    toPng(elementRef.current, { cacheBust: false })
-      .then((dataUrl) => {
-        const link = document.createElement('a');
-        link.download = 'meme.png';
-        link.href = dataUrl;
-        link.click();
-    })
+    if(elementRef.current) {
+      toPng(elementRef.current, { cacheBust: false })
+        .then((dataUrl) => {
+          const link = document.createElement('a');
+          link.download = 'meme.png';
+          link.href = dataUrl;
+          link.click();
+      })
+    } else {
+      console.log('Can\'t download image');
+      
+    }
   }
 
   // useEffect(() => {
@@ -63,6 +68,7 @@ export default function Meme () {
             return (
               <div id="img" className="w-60 h-32 flex flex-col justify-between items-center"
                 style={{background: `url(${imagePath})`}}
+                key={imagePath}
               ></div>
             )
           })

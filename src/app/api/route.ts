@@ -1,8 +1,7 @@
 import fs from 'fs'
-import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 
-export async function GET(req:NextApiRequest, res:NextApiResponse) {
+export async function GET() {
   try{
     const filePath = __dirname.split('.next')[0];
     const tmp = fs.readdirSync(filePath+'/images');
