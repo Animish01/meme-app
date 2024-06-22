@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { toPng } from "html-to-image";
+import html2canvas from "html2canvas";
 
 export default function Meme () {
   const [upperText, setUpperText] = useState('Upper text');
@@ -21,18 +22,29 @@ export default function Meme () {
   
   const downloadImage = () => {
     if(elementRef.current && isImageLoaded) {
-      toPng(elementRef.current, { cacheBust: false })
-        .then((dataUrl) => {
-          console.log(dataUrl);
+      // toPng(elementRef.current, { cacheBust: false })
+      //   .then((dataUrl) => {
+      //     console.log(dataUrl);
           
+      //     const link = document.createElement('a');
+      //     link.download = 'meme.png';
+      //     link.href = dataUrl;
+      //     link.click();
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+          
+      //   })
+      html2canvas(elementRef.current, { useCORS: true, allowTaint: true })
+        .then((canvas) => {
+          const dataUrl = canvas.toDataURL('image/png');
           const link = document.createElement('a');
           link.download = 'meme.png';
           link.href = dataUrl;
           link.click();
         })
         .catch(err => {
-          console.log(err);
-          
+          console.log(err);  
         })
     } else {
       console.log('Can\'t download image');
@@ -77,7 +89,7 @@ export default function Meme () {
         <div 
           id="img" 
           className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center"
-          style={{background: `url(${backgroundMeme})`}}
+          style={{backgroundImage: `url(${backgroundMeme})`}}
           ref={elementRef}
         >
           <div id="upperImgText" className="flex items-center" style={textStyle}>{upperText}</div>
