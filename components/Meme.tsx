@@ -52,7 +52,7 @@ export default function Meme () {
   }
 
   return (
-    <div className="flex flex-row w-screen justify-between">
+    <div className="flex flex-col w-screen justify-between md:flex-row">
       <div className="texts flex-1 flex flex-col justify-center">
         <label className=" max-w-60">Change Upper Text</label>
         <input id="upperText" placeholder="Upper Text"  className="max-w-60" onChange={changeUpperText}/>
@@ -75,13 +75,13 @@ export default function Meme () {
         >Download
         </div>
       </div>
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3">
         {
           memes?.map(({ url }) => {
             console.log(url);
             
             return (
-              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center hover:cursor-pointer"
+              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center hover:cursor-pointer m-3"
                 style={{backgroundImage: `url(${url})`}}
                 onClick={() => changeBackground(url)}
                 key={url}
