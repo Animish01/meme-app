@@ -7,7 +7,7 @@ export default function Meme () {
   const [upperText, setUpperText] = useState('Upper text');
   const [lowerText, setLowerText] = useState('Lower text');
   const [memes, setMemes] = useState([]);
-  const [backgroundMeme, setBackgroundMeme] = useState('');
+  const [backgroundMeme, setBackgroundMeme] = useState('http://res.cloudinary.com/dfs95q0ck/image/upload/v1718993353/template.jpg');
 
   const changeUpperText = (e:any) => {
     setUpperText(e.target.value);
