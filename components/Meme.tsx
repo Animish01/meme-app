@@ -52,6 +52,8 @@ export default function Meme () {
     // img.crossOrigin = 'anonymous';
     // img.src = url;
     // img.onload = () => {
+    console.log(url);
+    
       setBackgroundMeme(url);
     // }
   }
@@ -74,7 +76,7 @@ export default function Meme () {
         <div 
           id="img" 
           className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center"
-          style={{background: `url(${backgroundMeme})`}}
+          style={{background: `url(https://res.cloudinary.com/dfs95q0ck/image/upload/v1718993353/template.jpg)`}}
           ref={elementRef}
         >
           <div id="upperImgText" className="flex items-center" style={textStyle}>{upperText}</div>
