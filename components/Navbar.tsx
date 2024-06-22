@@ -28,7 +28,7 @@ export default function Navbar () {
         {
           links.map(link => {
             return (
-              <div className="text-slate-200 m-3">{link.name}</div>
+              <div className="text-slate-200 m-3" key={link.name}>{link.name}</div>
             )
           })
         }
