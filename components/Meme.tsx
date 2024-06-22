@@ -48,14 +48,12 @@ export default function Meme () {
   }, []);
 
   const changeBackground = (url:string) => {
-    // const img = new Image();
-    // img.crossOrigin = 'anonymous';
-    // img.src = url;
-    // img.onload = () => {
-    console.log(url);
-    
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = url;
+    img.onload = () => {
       setBackgroundMeme(url);
-    // }
+    }
   }
 
   const textStyle = {
@@ -76,7 +74,7 @@ export default function Meme () {
         <div 
           id="img" 
           className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center"
-          style={{background: `url(https://res.cloudinary.com/dfs95q0ck/image/upload/v1718993353/template.jpg)`}}
+          style={{background: `url(${backgroundMeme})`}}
           ref={elementRef}
         >
           <div id="upperImgText" className="flex items-center" style={textStyle}>{upperText}</div>
