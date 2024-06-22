@@ -43,6 +43,7 @@ export default function Meme () {
       const memes = await fetch('/api');
       const memeNames = await memes.json();
       setMemes(memeNames);
+      setBackgroundMeme(memeNames[0].url);
     }
     imageRes();
   }, []);
@@ -58,34 +59,36 @@ export default function Meme () {
   }
 
   return (
-    <div className="grid grid-col-1 w-screen justify-center md:grid-col-2">
-      <div className="texts flex flex-col justify-center align-center text-center m-2">
-        <label className=" max-w-60">Change Upper Text</label>
-        <input id="upperText" placeholder="Upper Text"  className="max-w-60" onChange={changeUpperText}/>
-        <label className=" max-w-60">Change Lower Text</label>
-        <input id="lowerText" placeholder="Lower Text" className="max-w-60" onChange={changeLowerText}/>
-      </div>
-      <div className="meme flex flex-col items-center justify-center m-2">
-        <div 
-          id="img" 
-          className="w-60 p-2 h-32 flex flex-col justify-between items-center bg-cover bg-center"
-          style={{backgroundImage: `url(${backgroundMeme})`}}
-          ref={elementRef}
-        >
-          <div id="upperImgText" className="flex items-center" style={textStyle}>{upperText}</div>
-          <div id="lowerImgText" className="flex items-center" style={textStyle}>{lowerText}</div>
+    <div className="flex flex-col justify-center  max-w-screen-lg min-h-screen bg-slate-200 p-3">
+      <div className="flex flex-col md:flex-row items-center justify-between ">
+        <div className="flex flex-col text-left m-2 max-w-64">
+          <label className=" max-w-60">Change Upper Text</label>
+          <input id="upperText" placeholder="Upper Text"  className="max-w-60" onChange={changeUpperText}/>
+          <label className=" max-w-60">Change Lower Text</label>
+          <input id="lowerText" placeholder="Lower Text" className="max-w-60" onChange={changeLowerText}/>
         </div>
-        <div 
-          className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-400 hover:cursor-pointer md:text-base"
-          onClick={downloadImage} 
-        >Download
+        <div className="meme flex flex-col m-2">
+          <div 
+            // id="img" 
+            className="w-72 p-2 h-40 flex flex-col justify-between items-center bg-cover bg-center m-2"
+            style={{backgroundImage: `url(${backgroundMeme})`}}
+            ref={elementRef}
+          >
+            <div id="upperImgText" className="flex items-center" style={textStyle}>{upperText}</div>
+            <div id="lowerImgText" className="flex items-center" style={textStyle}>{lowerText}</div>
+          </div>
+          <div 
+            className="flex items-center mx-auto gap-5 self-start rounded-lg bg-cyan-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-cyan-600 hover:cursor-pointer md:text-base m-2"
+            onClick={downloadImage} 
+          >Download
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 mx-auto">
         {
           memes?.map(({ url }) => {
             return (
-              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center hover:cursor-pointer m-3"
+              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center hover:cursor-pointer m-3 bg-slate-400"
                 style={{backgroundImage: `url(${url})`}}
                 onClick={() => changeBackground(url)}
                 key={url}
