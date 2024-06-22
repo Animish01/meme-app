@@ -8,8 +8,7 @@ export default function Meme () {
   const [upperText, setUpperText] = useState('Upper text');
   const [lowerText, setLowerText] = useState('Lower text');
   const [memes, setMemes] = useState([]);
-  const [backgroundMeme, setBackgroundMeme] = useState('http://res.cloudinary.com/dfs95q0ck/image/upload/v1718993353/template.jpg');
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [backgroundMeme, setBackgroundMeme] = useState('');
 
   const changeUpperText = (e:any) => {
     setUpperText(e.target.value);
@@ -20,32 +19,20 @@ export default function Meme () {
 
   const elementRef = useRef(null);
   
-  const downloadImage = () => {
-    if(elementRef.current && isImageLoaded) {
-      // toPng(elementRef.current, { cacheBust: false })
-      //   .then((dataUrl) => {
-      //     console.log(dataUrl);
-          
-      //     const link = document.createElement('a');
-      //     link.download = 'meme.png';
-      //     link.href = dataUrl;
-      //     link.click();
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-          
-      //   })
-      html2canvas(elementRef.current, { useCORS: true, allowTaint: true })
-        .then((canvas) => {
-          const dataUrl = canvas.toDataURL('image/png');
-          const link = document.createElement('a');
-          link.download = 'meme.png';
-          link.href = dataUrl;
-          link.click();
-        })
-        .catch(err => {
-          console.log(err);  
-        })
+  const downloadImage = async () => {
+    if(elementRef.current) {
+      try {
+        const canvas = await html2canvas(elementRef.current, { useCORS: true, allowTaint: true });
+        const dataUrl = canvas.toDataURL('image/png');
+        console.log(dataUrl);
+        
+        const link = document.createElement('a');
+        link.download = 'meme.png';
+        link.href = dataUrl;
+        link.click(); 
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       console.log('Can\'t download image');
     }
@@ -61,14 +48,7 @@ export default function Meme () {
   }, []);
 
   const changeBackground = (url:string) => {
-    setIsImageLoaded(false);
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = url;
-    img.onload = () => {
-      setBackgroundMeme(url);
-      setIsImageLoaded(true);
-    }
+    setBackgroundMeme(url);
   }
 
   const textStyle = {
@@ -78,17 +58,17 @@ export default function Meme () {
   }
 
   return (
-    <div className="flex flex-col w-screen justify-between md:flex-row">
-      <div className="texts flex-1 flex flex-col justify-center">
+    <div className="grid grid-col-1 w-screen justify-center md:grid-col-2">
+      <div className="texts flex flex-col justify-center align-center text-center m-2">
         <label className=" max-w-60">Change Upper Text</label>
         <input id="upperText" placeholder="Upper Text"  className="max-w-60" onChange={changeUpperText}/>
         <label className=" max-w-60">Change Lower Text</label>
         <input id="lowerText" placeholder="Lower Text" className="max-w-60" onChange={changeLowerText}/>
       </div>
-      <div className="meme flex-1 flex flex-col items-center justify-center">
+      <div className="meme flex flex-col items-center justify-center m-2">
         <div 
           id="img" 
-          className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center"
+          className="w-60 p-2 h-32 flex flex-col justify-between items-center bg-cover bg-center"
           style={{backgroundImage: `url(${backgroundMeme})`}}
           ref={elementRef}
         >
@@ -101,7 +81,7 @@ export default function Meme () {
         >Download
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 mx-auto">
         {
           memes?.map(({ url }) => {
             return (
