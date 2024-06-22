@@ -32,14 +32,17 @@ export default function Meme () {
     }
   }
 
-  // useEffect(() => {
-  //   const imageRes = async () => {
-  //     const memes = await fetch('/api');
-  //     const memeNames = await memes.json();
-  //     setMemes(memeNames);
-  //   }
-  //   imageRes();
-  // }, []);
+  useEffect(() => {
+    const imageRes = async () => {
+      const memes = await fetch('/api');
+      const memeNames = await memes.json();
+      setMemes(memeNames);
+    }
+    imageRes();
+    console.log(memes);
+  }, []);
+
+  console.log(memes);
 
   return (
     <div className="flex flex-row w-screen justify-between">
@@ -61,14 +64,13 @@ export default function Meme () {
       </div>
       <div className="grid grid-cols-3">
         {
-          memes.map((url) => {
-            const imagePath = __dirname+'images/'+url;
-            console.log(imagePath);
+          memes?.map(({ url }) => {
+            console.log(url);
             
             return (
-              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center"
-                style={{background: `url(${imagePath})`}}
-                key={imagePath}
+              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center"
+                style={{backgroundImage: `url(${url})`}}
+                key={url}
               ></div>
             )
           })
