@@ -17,7 +17,7 @@ bun dev
 ```
 
 ## Technologies used
-Next js (Frontend + Backend)
-Postgres DB
-Vercel (Hosting)
+Next js (Frontend + Backend) |
+Postgres DB |
+Vercel (Hosting) |
 Cloudinary (Image storage bucket)
