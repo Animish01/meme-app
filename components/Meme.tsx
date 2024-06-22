@@ -7,6 +7,7 @@ export default function Meme () {
   const [upperText, setUpperText] = useState('Upper text');
   const [lowerText, setLowerText] = useState('Lower text');
   const [memes, setMemes] = useState([]);
+  const [backgroundMeme, setBackgroundMeme] = useState('');
 
   const changeUpperText = (e:any) => {
     setUpperText(e.target.value);
@@ -28,7 +29,6 @@ export default function Meme () {
       })
     } else {
       console.log('Can\'t download image');
-      
     }
   }
 
@@ -39,25 +39,38 @@ export default function Meme () {
       setMemes(memeNames);
     }
     imageRes();
-    console.log(memes);
   }, []);
 
-  console.log(memes);
+  const changeBackground = (url:string) => {
+    setBackgroundMeme(url);
+  }
+
+  const textStyle = {
+    fontWeight: 'bold',
+    color: 'yellow',
+    textShadow: '2px 2px 5px black',
+  }
 
   return (
     <div className="flex flex-row w-screen justify-between">
       <div className="texts flex-1 flex flex-col justify-center">
-        <label className=" max-w-60">Change upper Text</label>
+        <label className=" max-w-60">Change Upper Text</label>
         <input id="upperText" placeholder="Upper Text"  className="max-w-60" onChange={changeUpperText}/>
-        <label className=" max-w-60">Change lower Text</label>
+        <label className=" max-w-60">Change Lower Text</label>
         <input id="lowerText" placeholder="Lower Text" className="max-w-60" onChange={changeLowerText}/>
       </div>
       <div className="meme flex-1 flex flex-col items-center justify-center">
-        <div id="img" className="w-60 h-32 flex flex-col justify-between items-center" ref={elementRef}>
-          <div id="upperImgText" className="flex items-center">{upperText}</div>
-          <div id="lowerImgText" className="flex items-center">{lowerText}</div>
+        <div 
+          id="img" 
+          className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center"
+          style={{backgroundImage: `url(${backgroundMeme})`}} 
+          ref={elementRef}
+        >
+          <div id="upperImgText" className="flex items-center" style={textStyle}>{upperText}</div>
+          <div id="lowerImgText" className="flex items-center" style={textStyle}>{lowerText}</div>
         </div>
         <div 
+          className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-400 hover:cursor-pointer md:text-base"
           onClick={downloadImage} 
         >Download
         </div>
@@ -68,8 +81,9 @@ export default function Meme () {
             console.log(url);
             
             return (
-              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center"
+              <div id="img" className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center hover:cursor-pointer"
                 style={{backgroundImage: `url(${url})`}}
+                onClick={() => changeBackground(url)}
                 key={url}
               ></div>
             )
