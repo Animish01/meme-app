@@ -8,6 +8,7 @@ export default function Meme () {
   const [lowerText, setLowerText] = useState('Lower text');
   const [memes, setMemes] = useState([]);
   const [backgroundMeme, setBackgroundMeme] = useState('http://res.cloudinary.com/dfs95q0ck/image/upload/v1718993353/template.jpg');
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const changeUpperText = (e:any) => {
     setUpperText(e.target.value);
@@ -19,7 +20,7 @@ export default function Meme () {
   const elementRef = useRef(null);
   
   const downloadImage = () => {
-    if(elementRef.current) {
+    if(elementRef.current && isImageLoaded) {
       toPng(elementRef.current, { cacheBust: false })
         .then((dataUrl) => {
           console.log(dataUrl);
@@ -48,11 +49,13 @@ export default function Meme () {
   }, []);
 
   const changeBackground = (url:string) => {
+    setIsImageLoaded(false);
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.src = url;
     img.onload = () => {
       setBackgroundMeme(url);
+      setIsImageLoaded(true);
     }
   }
 
