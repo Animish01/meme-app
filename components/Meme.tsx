@@ -1,14 +1,15 @@
 'use client'
 
 import { useState, useRef, useEffect } from "react";
-import { toPng } from "html-to-image";
 import html2canvas from "html2canvas";
+import ImageSkeleton from "../skeletons/Image-Skeleton";
 
 export default function Meme () {
+  const [memes, setMemes] = useState([]);
   const [upperText, setUpperText] = useState('Upper text');
   const [lowerText, setLowerText] = useState('Lower text');
-  const [memes, setMemes] = useState([]);
   const [backgroundMeme, setBackgroundMeme] = useState('');
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   const changeUpperText = (e:any) => {
     setUpperText(e.target.value);
@@ -43,6 +44,7 @@ export default function Meme () {
       const memes = await fetch('/api');
       const memeNames = await memes.json();
       setMemes(memeNames);
+      setImagesLoaded(true);
       setBackgroundMeme(memeNames[0].url);
     }
     imageRes();
@@ -59,8 +61,8 @@ export default function Meme () {
   }
 
   return (
-    <div className="flex flex-col justify-center  max-w-screen-lg min-h-screen bg-slate-200 p-3">
-      <div className="flex flex-col md:flex-row items-center justify-between ">
+    <div className="flex flex-col max-w-screen-lg min-h-screen bg-slate-200 p-3">
+      <div className="flex flex-col md:flex-row items-center justify-between my-2">
         <div className="flex flex-col text-left m-2 max-w-64">
           <label className=" max-w-60">Change Upper Text</label>
           <input id="upperText" placeholder="Upper Text"  className="max-w-60" onChange={changeUpperText}/>
@@ -84,8 +86,8 @@ export default function Meme () {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 mx-auto">
-        {
+      <div className="grid grid-cols-1 md:grid-cols-3 mx-auto my-3">
+        {imagesLoaded ?
           memes?.map(({ url }) => {
             return (
               <div id="img" className="w-60 h-32 flex flex-col justify-between items-center bg-cover bg-center hover:cursor-pointer m-3 bg-slate-400"
@@ -94,7 +96,8 @@ export default function Meme () {
                 key={url}
               ></div>
             )
-          })
+          }) : 
+            [<ImageSkeleton />, <ImageSkeleton />, <ImageSkeleton />]
         }
       </div>
     </div>
