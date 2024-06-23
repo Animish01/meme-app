@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 export default function Navbar () {
   const links = [
@@ -22,13 +23,13 @@ export default function Navbar () {
           height={40}
           className="m-2"
         />
-        <div className="text-slate-200 m-2">Make memes</div>
+        <div className="text-slate-200 m-2 font-bold">MemeMaker</div>
       </div>
       <div className="flex flex-row">
         {
           links.map(link => {
             return (
-              <div className="text-slate-200 m-3" key={link.name}>{link.name}</div>
+              <Link href={ link.link } className="transition ease-in-out text-slate-200 m-3 cursor-pointer hover:scale-110 duration-200" key={link.name}>{link.name}</Link>
             )
           })
         }
