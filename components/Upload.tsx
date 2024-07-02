@@ -5,7 +5,7 @@ import React, { useState } from "react";
 export default function Upload () {
   // const navigate = us
   // const [image, setImage] = useState(null);
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState('');
 
   const handleFileChange = async (e:any) => {
     // setFile(URL.createObjectURL(e.target.files[0]));
@@ -22,10 +22,10 @@ export default function Upload () {
       console.log(formData.get('file'));
 
 
-      const res = await fetch('/api/upload-image', {
-        method: 'POST',
-        body: formData,
-      });
+      // const res = await fetch('/api/upload-image', {
+      //   method: 'POST',
+      //   body: formData,
+      // });
       // console.log(res.body);
       
 

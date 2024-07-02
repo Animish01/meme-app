@@ -97,7 +97,7 @@ export default function Meme () {
               ></div>
             )
           }) : 
-            [<ImageSkeleton />, <ImageSkeleton />, <ImageSkeleton />]
+            [<ImageSkeleton key="ske1" />, <ImageSkeleton key="ske2" />, <ImageSkeleton key="ske3" />]
         }
       </div>
     </div>
